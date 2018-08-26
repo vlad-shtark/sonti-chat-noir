@@ -2,13 +2,27 @@ package com.sonti.chatnoir.entity;
 
 import lombok.Data;
 
-import java.util.List;
+import javax.persistence.*;
 
 @Data
+@Entity
+@Table(name = "chat_user")
 public class ChatUserAccount {
 
-    private String email;
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @Column
+    private String login;
+
+    @Column
     private String password;
-    private List<String> roles;
+
+    @Column
+    private String name;
+
+    @Column
+    private String role;
 
 }
