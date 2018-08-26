@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-@Profile("dev")
 public class ListUserRepository implements UserRepository {
 
     private static final List<ChatUserAccount> users = new ArrayList<>();
