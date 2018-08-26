@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'registration')}">
+<body>
+<h1>form</h1>
+<form th:action="@{/registration}" th:object="${loginForm}" method="POST">
+    <div>
+        <label for="firstName">First name</label>
+        <input id="firstName" th:field="*{firstName}"/>
+        <p th:each="error: ${#fields.errors('firstName')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label for="lastName">Last name</label>
+        <input id="lastName" th:field="*{lastName}"/>
+        <p th:each="error : ${#fields.errors('lastName')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" th:field="*{email}"/>
+        <p th:each="error : ${#fields.errors('email')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" th:field="*{password}"/>
+        <p th:each="error : ${#fields.errors('password')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <label for="matchingPassword">Confirm password</label>
+        <input id="matchingPassword" type="password" th:field="*{matchingPassword}"/>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+
+<a th:href="@{/login}">Login</a>
+</body>
+</html>

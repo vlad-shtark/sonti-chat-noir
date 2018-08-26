@@ -1,0 +1,5 @@
+{
+  "name": "Chat-Noir",
+  "description": "Simple chat app",
+  "addons": [ "heroku-postgresql" ]
+}

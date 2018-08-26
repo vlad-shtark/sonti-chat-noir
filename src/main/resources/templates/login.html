@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'login')}">
+<body>
+<h1>form</h1>
+<form th:action="@{/performLogin}" method="POST">
+    <div>
+        <label for="email">Email</label>
+        <input id="email" type="text" name="username"/>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password"/>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+
+<a th:href="@{/login}">Login</a>
+</body>
+</html>
