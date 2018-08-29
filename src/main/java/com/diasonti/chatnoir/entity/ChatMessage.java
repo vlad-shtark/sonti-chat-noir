@@ -1,4 +1,4 @@
-package com.sonti.chatnoir.entity;
+package com.diasonti.chatnoir.entity;
 
 import lombok.Data;
 

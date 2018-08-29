@@ -1,7 +1,7 @@
-package com.sonti.chatnoir.config.security;
+package com.diasonti.chatnoir.config.security;
 
-import com.sonti.chatnoir.entity.ChatUserAccount;
-import com.sonti.chatnoir.repository.ChatUserAccountRepository;
+import com.diasonti.chatnoir.entity.ChatUserAccount;
+import com.diasonti.chatnoir.repository.ChatUserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

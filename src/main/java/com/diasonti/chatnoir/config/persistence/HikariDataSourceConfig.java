@@ -1,4 +1,4 @@
-package com.sonti.chatnoir.config.persistence;
+package com.diasonti.chatnoir.config.persistence;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

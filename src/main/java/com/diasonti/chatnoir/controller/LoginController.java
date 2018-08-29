@@ -1,9 +1,6 @@
-package com.sonti.chatnoir.controller;
+package com.diasonti.chatnoir.controller;
 
-import com.sonti.chatnoir.config.security.ChatUser;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

@@ -1,6 +1,6 @@
-package com.sonti.chatnoir.util.validation.annotation;
+package com.diasonti.chatnoir.util.validation.annotation;
 
-import com.sonti.chatnoir.util.validation.EmailValidator;
+import com.diasonti.chatnoir.util.validation.EmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

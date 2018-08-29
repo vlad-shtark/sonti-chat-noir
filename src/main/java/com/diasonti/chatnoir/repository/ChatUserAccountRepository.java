@@ -1,6 +1,6 @@
-package com.sonti.chatnoir.repository;
+package com.diasonti.chatnoir.repository;
 
-import com.sonti.chatnoir.entity.ChatUserAccount;
+import com.diasonti.chatnoir.entity.ChatUserAccount;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

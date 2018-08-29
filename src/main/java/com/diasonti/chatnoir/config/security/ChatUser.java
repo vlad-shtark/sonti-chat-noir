@@ -1,6 +1,6 @@
-package com.sonti.chatnoir.config.security;
+package com.diasonti.chatnoir.config.security;
 
-import com.sonti.chatnoir.entity.ChatUserAccount;
+import com.diasonti.chatnoir.entity.ChatUserAccount;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
