@@ -2,6 +2,7 @@ package com.diasonti.chatnoir.config.security;
 
 import com.diasonti.chatnoir.entity.ChatUserAccount;
 import com.diasonti.chatnoir.repository.ChatUserAccountRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,18 +16,15 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private ChatUserAccountRepository chatUserAccountRepository;
+    private final ChatUserAccountRepository chatUserAccountRepository;
 
     public UserDetails loadUserByUsername(String login)
             throws UsernameNotFoundException {
 
-        ChatUserAccount userAccount = chatUserAccountRepository.findByLogin(login);
-        if (userAccount == null) {
-            throw new UsernameNotFoundException("No user found with username: " + login);
-        }
+        ChatUserAccount userAccount = chatUserAccountRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("No user found with username: " + login));
         boolean enabled = true;
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
