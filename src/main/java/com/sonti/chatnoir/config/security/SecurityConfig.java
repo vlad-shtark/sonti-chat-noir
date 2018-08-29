@@ -15,15 +15,16 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final CustomUserDetailsService userDetailsService;
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("user").password(passwordEncoder.encode("user")).roles("USER");
         auth.userDetailsService(userDetailsService);
     }
 
@@ -31,25 +32,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-//                .antMatchers("/login*").anonymous()
-//                .antMatchers("/registration*").anonymous()
-//                .antMatchers("/test*").anonymous()
-//                .anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .antMatchers("/login*", "/register*").anonymous()
+                .antMatchers("/chat*").hasAnyAuthority("CHAT_USER", "ADMIN")
+                .antMatchers("/profile*").hasAnyAuthority("CHAT_USER", "ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
                 .formLogin()
-                .usernameParameter("login")
-                .passwordParameter("password")
+                .usernameParameter("login").passwordParameter("password")
                 .loginPage("/login")
                 .loginProcessingUrl("/performLogin")
-                .defaultSuccessUrl("/test")
+                .defaultSuccessUrl("/chat")
                 .failureUrl("/login?error=true")
                 .and()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login");
-//                .and()
-//                .logout().permitAll();
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout=true");
     }
 
     @Bean
