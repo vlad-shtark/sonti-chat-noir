@@ -146,4 +146,18 @@ public class ChatUserAccountRepository {
         }
         return list;
     }
+
+    public String getName(long senderId) {
+        String name = null;
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT name FROM chat_user WHERE id = ?");
+            statement.setLong(1, senderId);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next())
+                name = resultSet.getString("name");
+        } catch (SQLException e) {
+            log.error("ChatUserAccountRepository: find error", e);
+        }
+        return name;
+    }
 }

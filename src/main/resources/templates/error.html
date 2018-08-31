@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout ('error', ~{::body}, ~{::body}, ~{::body})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout ('Ошибка', ~{::body}, ~{::css}, ~{::js})}">
 
-  <body>
-    <p th:text="${message}">Exception message</p>
+<head>
+  <style th:fragment="css">
+  </style>
+  <script th:fragment="js">
+      /*<![CDATA[*/
+      /*]]>*/
+  </script>
+</head>
+  <body th:fragment="body">
+    <!--<p th:text="${message}">Exception message</p>-->
+    <br />
+    <br />
+    <div class="alert alert-secondary">
+      <p>Че-то сломалось, лол</p>
+    </div>
   </body>
 
 </html>

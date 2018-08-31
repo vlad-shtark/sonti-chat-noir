@@ -15,4 +15,8 @@ public class ChatMessage {
 
     private String text;
 
+    private String senderName;
+
+    private String sentAtFormatted;
+
 }

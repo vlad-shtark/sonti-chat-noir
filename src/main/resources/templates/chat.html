@@ -116,8 +116,8 @@
     <li v-for="message in messages">
         <div class="message clearfix">
             <div class="header">
-                <strong class="primary-font name">{{ message.name }}</strong>
-                <small class="pull-right text-muted time">{{ message.sentAt }}</small>
+                <strong class="primary-font name">{{ message.senderName }}</strong>
+                <small class="pull-right text-muted time">{{ message.sentAtFormatted }}</small>
             </div>
             <p class="text">{{ message.text }}</p>
         </div>
@@ -127,7 +127,8 @@
     <textarea v-model="textArea" class="form-control" rows="3"></textarea>
     <span class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-xs-12" style="margin-top: 10px">
             <button @click="send" class="btn btn-warning btn-lg btn-block">Send</button>
-        </span>
+    </span>
 </div>
+<form th:action="@{/logout}" method="post"><button type="submit" class="btn btn-dark btn-lg btn-block">Выйти</button></form>
 </body>
 </html>

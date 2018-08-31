@@ -238,6 +238,13 @@
         Логин занят
     </div>
 
+    <div class="alert alert-danger" role="alert" th:if="${error != null && error}">
+        Неверный логин или пароль
+    </div>
+    <div class="alert alert-success" role="alert" th:if="${logout != null && logout}">
+        Ббалити
+    </div>
+
     <div class="tab-content">
 
         <div id="signup" v-bind:class="{ hidden : login }">

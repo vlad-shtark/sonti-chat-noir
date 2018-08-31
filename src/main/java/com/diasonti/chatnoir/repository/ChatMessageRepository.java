@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Repository
 @Slf4j
@@ -19,6 +18,8 @@ public class ChatMessageRepository {
 
     private final DataSource dataSource;
 
+    private final ChatUserAccountRepository userAccountRepository;
+
     public Optional<ChatMessage> find(long id) {
         ChatMessage entity = null;
         try (Connection connection = dataSource.getConnection()) {
@@ -26,6 +27,7 @@ public class ChatMessageRepository {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             entity = getUniqueResult(resultSet);
+            entity.setSenderName(userAccountRepository.getName(entity.getSenderId()));
         } catch (SQLException e) {
             log.error("ChatMessageRepository: find error", e);
         }
@@ -34,10 +36,17 @@ public class ChatMessageRepository {
 
     public List<ChatMessage> findAll() {
         List<ChatMessage> list = new ArrayList<>();
+        Map<Long, String> namesCache = new HashMap<>();
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM chat_message ORDER BY id ASC");
             ResultSet resultSet = statement.executeQuery();
             list.addAll(getResultList(resultSet));
+            list.forEach(message -> {
+                if(!namesCache.containsKey(message.getSenderId()))
+                    namesCache.put(message.getSenderId(), userAccountRepository.getName(message.getSenderId()));
+                message.setSenderName(namesCache.get(message.getSenderId()));
+                message.setSentAtFormatted(message.getSentAt().format(DateTimeFormatter.ofPattern("dd.mm.yyyy hh:mm:ss")));
+            });
         } catch (SQLException e) {
             log.error("ChatMessageRepository: find error", e);
         }
