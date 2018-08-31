@@ -1,18 +1,296 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'login')}">
-<body>
-<h1>form</h1>
-<form th:action="@{/performLogin}" method="POST">
-    <div>
-        <label for="email">Email</label>
-        <input id="email" type="text" name="login"/>
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" name="password"/>
-    </div>
-    <button type="submit">Submit</button>
-</form>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      th:replace="~{fragments/layout :: layout ('Log into Chat-noir', ~{::body}, ~{::css}, ~{::js})}">
+<head>
+    <style th:fragment="css">
+        a {
+            text-decoration: none;
+            color: #1ab188;
+            transition: .5s ease;
+        }
 
-<a th:href="@{/login}">Login</a>
+        a:hover {
+            color: #179b77;
+        }
+
+        .form {
+            background: rgba(19, 35, 47, 0.9);
+            padding: 40px;
+            max-width: 600px;
+            margin: 40px auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+        }
+
+        .tab-group {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 40px 0;
+        }
+
+        .tab-group:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .tab-group li a {
+            display: block;
+            text-decoration: none;
+            padding: 15px;
+            background: rgba(160, 179, 176, 0.25);
+            color: #a0b3b0;
+            font-size: 20px;
+            float: left;
+            width: 50%;
+            text-align: center;
+            cursor: pointer;
+            transition: .5s ease;
+        }
+
+        .tab-group li a:hover {
+            background: #179b77;
+            color: #ffffff;
+        }
+
+        .tab-group .active a {
+            background: #1ab188;
+            color: #ffffff;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            font-weight: 300;
+            margin: 0 0 40px;
+        }
+
+        label {
+            position: absolute;
+            -webkit-transform: translateY(6px);
+            transform: translateY(6px);
+            left: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.25s ease;
+            -webkit-backface-visibility: hidden;
+            pointer-events: none;
+            font-size: 22px;
+        }
+
+        label .req {
+            margin: 2px;
+            color: #1ab188;
+        }
+
+        label.active {
+            -webkit-transform: translateY(50px);
+            transform: translateY(50px);
+            left: 2px;
+            font-size: 14px;
+        }
+
+        label.active .req {
+            opacity: 0;
+        }
+
+        label.highlight {
+            color: #ffffff;
+        }
+
+        input, textarea {
+            font-size: 22px;
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 5px 10px;
+            background: none;
+            border: 1px solid #a0b3b0;
+            color: #ffffff;
+            border-radius: 0;
+            transition: border-color .25s ease, box-shadow .25s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: 0;
+            border-color: #1ab188;
+        }
+
+        textarea {
+            border: 2px solid #a0b3b0;
+            resize: vertical;
+        }
+
+        .field-wrap {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .top-row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .top-row > div {
+            float: left;
+            width: 48%;
+            margin-right: 4%;
+        }
+
+        .top-row > div:last-child {
+            margin: 0;
+        }
+
+        .button {
+            border: 0;
+            outline: none;
+            border-radius: 0;
+            padding: 15px 0;
+            font-size: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            background: #1ab188;
+            color: #ffffff;
+            transition: all 0.5s ease;
+            -webkit-appearance: none;
+        }
+
+        .button:hover, .button:focus {
+            background: #179b77;
+        }
+
+        .button-block {
+            display: block;
+            width: 100%;
+        }
+
+        .forgot {
+            margin-top: -20px;
+            text-align: right;
+        }
+
+        .hidden, [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script th:fragment="js">
+        /*<![CDATA[*/
+        let app;
+        app = new Vue({
+            el: '#app',
+            data: {
+                activeTab: 1,
+                lLogin: "", lPassword: "",
+                rLogin: "", rPassword: "", rName: ""
+            },
+            computed: {
+                login: function () {
+                    return this.activeTab === 1;
+                },
+                registration: function () {
+                    return this.activeTab === 2;
+                },
+                lLoginIsEmpty: function () {
+                    return this.lLogin.length === 0;
+                },
+                lPasswordIsEmpty: function () {
+                    return this.lPassword.length === 0;
+                },
+                rLoginIsEmpty: function () {
+                    return this.rLogin.length === 0;
+                },
+                rPasswordIsEmpty: function () {
+                    return this.rPassword.length === 0;
+                },
+                rNameIsEmpty: function () {
+                    return this.rName.length === 0;
+                }
+            },
+            created: function () {
+                this.loginTab();
+            },
+            methods: {
+                registrationTab: function () {
+                    this.activeTab = 2;
+                },
+                loginTab: function () {
+                    this.activeTab = 1;
+                }
+            }
+        });
+        /*]]>*/
+    </script>
+</head>
+<body th:fragment="body">
+<div class="form" v-cloak>
+
+    <ul class="tab-group">
+        <li class="tab" v-bind:class="{ active : login }"><a @click="loginTab" href="#login">Log In</a></li>
+        <li class="tab" v-bind:class="{ active : registration }"><a @click="registrationTab" href="#signup">Sign Up</a>
+        </li>
+    </ul>
+
+    <div class="alert alert-success" role="alert" th:if="${registerSuccess != null && registerSuccess}">
+        Теперь вы можете войти
+    </div>
+    <div class="alert alert-warning" role="alert" th:if="${registerSuccess != null && !registerSuccess}">
+        Логин занят
+    </div>
+
+    <div class="tab-content">
+
+        <div id="signup" v-bind:class="{ hidden : login }">
+            <h1>Регистрация</h1>
+
+            <form th:action="@{/registration}" method="post">
+
+                <div class="field-wrap">
+                    <label v-bind:class="{ hidden : !rNameIsEmpty }">Имя<span class="req">*</span></label>
+                    <input v-model="rName" type="text" name="name" required autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label v-bind:class="{ hidden : !rLoginIsEmpty }">Логин<span class="req">*</span></label>
+                    <input v-model="rLogin" type="text" name="login" required autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label v-bind:class="{ hidden : !rPasswordIsEmpty }">Пароль<span class="req">*</span></label>
+                    <input v-model="rPassword" type="password" name="password" required autocomplete="off"/>
+                </div>
+
+                <button type="submit" class="button button-block">Зарегистрироваться</button>
+
+            </form>
+
+        </div>
+
+        <div id="login" v-bind:class="{ hidden : registration }">
+            <h1>Вход</h1>
+
+            <form th:action="@{/performLogin}" method="post">
+
+                <div class="field-wrap">
+                    <label v-bind:class="{ hidden : !lLoginIsEmpty }">Логин<span class="req">*</span></label>
+                    <input v-model="lLogin" type="text" name="login" required autocomplete="off"/>
+                </div>
+
+                <div class="field-wrap">
+                    <label v-bind:class="{ hidden : !lPasswordIsEmpty }">Пароль<span class="req">*</span></label>
+                    <input v-model="lPassword" type="password" name="password" required autocomplete="off"/>
+                </div>
+
+                <!--<p class="forgot"><a href="#">Forgot Password?</a></p>-->
+
+                <button class="button button-block">Войти</button>
+
+            </form>
+
+        </div>
+
+    </div><!-- tab-content -->
+
+</div>
 </body>
 </html>

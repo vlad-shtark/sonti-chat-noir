@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout ('Chat-noir', ~{::body}, ~{::css}, ~{::js})}">
+<head>
+    <style th:fragment="css">
+        .chat {
+            height: 600px;
+            list-style: none;
+            margin: 50px 0 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+        }
+
+        .chat li {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px dotted #B3A9A9;
+        }
+
+        .chat li.left .message {
+            margin-left: 60px;
+        }
+
+        .chat li.right .message {
+            margin-right: 60px;
+        }
+
+        .chat li .message p {
+            margin: 0;
+            color: #777777;
+        }
+
+        .scroll {
+            overflow-y: scroll;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            background-color: #555;
+        }
+    </style>
+    <script th:fragment="js">
+        /*<![CDATA[*/
+        let app;
+        app = new Vue({
+            el: '#app',
+            data: {
+                test: "THIS IS TEST",
+                messages: [],
+                textArea: "",
+                refresher: null
+            },
+            created: function () {
+                app.refresher = setInterval(() => {
+                    app.refresh();
+                }, 500);
+            },
+            methods: {
+                send: function (event) {
+                    let messageText = app.textArea;
+                    this.textArea = '';
+                    $.ajax({
+                        method: "POST",
+                        url: "/chat/post",
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        data: {
+                            [[${_csrf.parameterName}]]: '[[${_csrf.token}]]',
+                            text: messageText
+                        }
+                    }).done(function (response) {
+                        // console.log("Message sent: " + messageText);
+                        // console.log("Response got:");
+                        // console.log(response);
+                        app.refresh();
+                    });
+                },
+                refresh: function (event) {
+                    $.ajax({
+                        method: "GET",
+                        url: "/chat/get",
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        data: {
+                            [[${_csrf.parameterName}]]: '[[${_csrf.token}]]'
+                        }
+                    }).done(function (response) {
+                        // console.log("Requested refresh");
+                        // console.log("Response got:");
+                        // console.log(response);
+                        if (response.status === 200)
+                            app.messages = response.data;
+                    });
+                }
+            }
+        });
+        /*]]>*/
+    </script>
+</head>
+<body th:fragment="body">
+<ul class="chat scroll">
+    <li v-for="message in messages">
+        <div class="message clearfix">
+            <div class="header">
+                <strong class="primary-font name">{{ message.name }}</strong>
+                <small class="pull-right text-muted time">{{ message.sentAt }}</small>
+            </div>
+            <p class="text">{{ message.text }}</p>
+        </div>
+    </li>
+</ul>
+<div class="panel-footer clearfix">
+    <textarea v-model="textArea" class="form-control" rows="3"></textarea>
+    <span class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-xs-12" style="margin-top: 10px">
+            <button @click="send" class="btn btn-warning btn-lg btn-block">Send</button>
+        </span>
+</div>
+</body>
+</html>

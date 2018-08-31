@@ -32,6 +32,10 @@ public class ChatService {
             log.error("Method postMessage error: Sender should not be null");
             return;
         }
+        if(text == null) {
+            log.error("Method postMessage error: Text should not be null");
+            return;
+        }
         ChatUserAccount senderAccount = sender.getUserAccount();
         ChatMessage message = new ChatMessage();
         message.setSentAt(LocalDateTime.now());

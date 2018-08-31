@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final ChatUserAccountRepository chatUserAccountRepository;
 
-    public UserDetails loadUserByUsername(String login)
+    public ChatUser loadUserByUsername(String login)
             throws UsernameNotFoundException {
 
         ChatUserAccount userAccount = chatUserAccountRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("No user found with username: " + login));

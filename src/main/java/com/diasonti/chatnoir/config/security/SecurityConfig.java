@@ -32,8 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login*", "/register*").anonymous()
-                .antMatchers("/chat*").hasAnyAuthority("CHAT_USER", "ADMIN")
-                .antMatchers("/profile*").hasAnyAuthority("CHAT_USER", "ADMIN")
+                .antMatchers("/chat*", "/chat/**").hasAnyAuthority("CHAT_USER", "ADMIN")
+//                .antMatchers("/profile*").hasAnyAuthority("CHAT_USER", "ADMIN")
+                .antMatchers("/user*").hasAnyAuthority("CHAT_USER", "ADMIN")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .and()
                 .formLogin()

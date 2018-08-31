@@ -91,6 +91,21 @@ public class ChatUserAccountRepository {
         }
     }
 
+    public boolean exists(String login) {
+        long count = 0L;
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement("SELECT count(*) FROM chat_user WHERE login = ?");
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                count = resultSet.getLong(1);
+            }
+        } catch (SQLException e) {
+            log.error("ChatUserAccountRepository: find error", e);
+        }
+        return count > 0L;
+    }
+
     public long count() {
         long count = -1L;
         try (Connection connection = dataSource.getConnection()) {
@@ -131,5 +146,4 @@ public class ChatUserAccountRepository {
         }
         return list;
     }
-
 }

@@ -35,7 +35,7 @@ public class ChatMessageRepository {
     public List<ChatMessage> findAll() {
         List<ChatMessage> list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM chat_message ORDER BY id DESC");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM chat_message ORDER BY id ASC");
             ResultSet resultSet = statement.executeQuery();
             list.addAll(getResultList(resultSet));
         } catch (SQLException e) {
